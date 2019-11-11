@@ -1,23 +1,18 @@
 <template>
   <v-container class="grey lighten-5">
-    <v-row no-gutters>
-      <template v-for="n in 9">
-        <v-col :key="n">
-          <v-card class="pa-2" outlined tile>
-            <v-img :src=trip[n-1].photo max-width="300"></v-img>
-            <div class="title" v-text="trip[n-1].city+', '+trip[n-1].country"></div>
-            <v-icon>fas fa-calendar-alt</v-icon>
-            <div
-              class="body-1"
-              v-text="formatDate(trip[n-1].departure)+' - '+formatDate(trip[n-1].arrival)"
-            ></div>
-            <v-icon>fas fa-dollar-sign</v-icon>
-            <div class="body-1" v-text="trip[n-1].price"></div>
-            <div class="body-1" v-text="trip[n-1].description"></div>
-          </v-card>
-        </v-col>
-        <v-responsive v-if="n === 3 || n === 6 || n === 9" :key="`width-${n}`" width="100%"></v-responsive>
-      </template>
+   <v-row max-width="window.screen.width">
+     
+      <v-col v-for="item in trip" :key="item.city" align="center" justify="center">
+        <v-card min-width="310" max-width="310" align="left">
+          <v-img :src="item.photo" max-width="300"></v-img>
+          <div class="title" v-text="item.city+', '+item.country"></div>
+          <v-icon>fas fa-calendar-alt</v-icon>
+          <div class="body-1" v-text="formatDate(item.departure)+' - '+formatDate(item.arrival)"></div>
+          <v-icon>fas fa-dollar-sign</v-icon>
+          <div class="body-1" v-text="item.price"></div>
+          <div class="body-1" v-text="item.description"></div>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>
