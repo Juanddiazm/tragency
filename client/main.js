@@ -1,22 +1,28 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import  { Meteor } from  'meteor/meteor'
+import  Vue from 'vue'
+import  Vuetify from  'vuetify'
+import 'vuetify/dist/vuetify.css'
 
-import './main.html';
+Vue.use(Vuetify)
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-});
+const opts = {}
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
+const vuetify = new Vuetify(opts)
+import VueMeteorTracker  from 'vue-meteor-tracker'
 
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
-});
+Vue.use(VueMeteorTracker)
+
+import router  from  '../imports/router'
+
+import App from  '../imports/ui/App'
+import './main.html'
+
+
+Meteor.startup(() => {
+   new Vue ({
+     el: "#app", 
+     vuetify,
+     router,
+     ...App
+   }) 
+})
