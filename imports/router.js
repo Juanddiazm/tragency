@@ -3,19 +3,29 @@ import VueRouter from 'vue-router'
 import Home from './ui/Home'
 import Trips from './ui/Trips'
 import Testimonials from './ui/Testimonials'
+import Register from './ui/Register'
+import Login from './ui/Login'
 
 Vue.use(VueRouter)
 
-const routes = [
-    { path: '/home', name: 'Home', component: Home },
-    {
-        path: '*',
-        redirect: '/home'
-    },
-    { path: '/trips', name: 'Trips', component: Trips },
-    { path: '/testimonials', name: 'Testimonials', component: Testimonials }
-]
+export const router = new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes: [
+        { path: '/home', name: 'Home', component: Home },
 
-const router = new VueRouter({ mode: 'history', routes })
+        { path: '/trips', name: 'Trips', component: Trips },
 
-export default router
+        { path: '/testimonials', name: 'Testimonials', component: Testimonials },
+
+        { path: '/register', name: 'Register', component: Register },
+
+        { path: '/login', name: 'Login', component: Login },
+
+        {
+            path: '*',
+            redirect: '/home'
+        },
+    ]
+
+})

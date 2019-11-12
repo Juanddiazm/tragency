@@ -5,7 +5,7 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <!-- navigation bar links -->
-    <v-toolbar-items class="hidden-xs-only" v-if="!userLogedIn">
+    <v-toolbar-items class="hidden-xs-only" v-if="!userLogedIn()">
       <v-btn @click="$router.push('/aboutUs')">ABOUT US</v-btn>
       <v-btn @click="$router.push('/trips')">TRIPS</v-btn>
       <v-btn @click="$router.push('/testimonials')">TESTIMONIALS</v-btn>
@@ -24,27 +24,29 @@
 
 <script>
 export default {
-  items() {
-    let menuItems = [
-      {
-        title: "Register",
-        link: "/register"
-      },
-      {
-        title: "Login",
-        link: "/login"
-      }
-    ];
-    return menuItems;
+  computed: {
+    items() {
+      let menuItems = [
+        {
+          title: "Register",
+          link: "/register"
+        },
+        {
+          title: "Login",
+          link: "/login"
+        }
+      ];
+      return menuItems;
+    }
   },
-  
+
   methods: {
     logout() {
       return false;
     },
     userLogedIn() {
-    return false;
-  },
+      return false;
+    }
   }
 };
 </script>

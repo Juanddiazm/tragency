@@ -2,27 +2,23 @@ import  { Meteor } from  'meteor/meteor'
 import  Vue from 'vue'
 import  Vuetify from  'vuetify'
 import 'vuetify/dist/vuetify.css'
-
-Vue.use(Vuetify)
-
-const opts = {}
-
-const vuetify = new Vuetify(opts)
+import store from '../imports/store'
 import VueMeteorTracker  from 'vue-meteor-tracker'
-
-Vue.use(VueMeteorTracker)
-
-import router  from  '../imports/router'
-
+import { router }  from  '../imports/router'
 import App from  '../imports/ui/App'
 import './main.html'
 
+Vue.use(Vuetify)
+const opts = {}
+const vuetify = new Vuetify(opts)
+Vue.use(VueMeteorTracker)
 
 Meteor.startup(() => {
    new Vue ({
      el: "#app", 
      vuetify,
      router,
+     store,
      ...App
    }) 
 })
