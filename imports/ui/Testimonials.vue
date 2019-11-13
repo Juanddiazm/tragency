@@ -7,6 +7,7 @@
           <div class="body-1" v-text='"\""+item.description+"\""'></div>
           <!--   <div class="body-1" v-text='"\""+item.description+"\""'></div> -->
           <div class="font-italic font-weight-bold" align="right" v-text="'-'+item.name"></div>
+          <v-btn small color="error" @click="deleteTestimonial(item)">Delete</v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -57,6 +58,9 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
+    deleteTestimonial(item){
+      Meteor.call('testimonial.delete',item);
+    }
   },
   meteor: {
     $subscribe: {

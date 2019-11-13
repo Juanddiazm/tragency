@@ -10,11 +10,12 @@
           <v-icon>fas fa-dollar-sign</v-icon>
           <div class="body-1" v-text="item.price"></div>
           <div class="body-1" v-text="item.description"></div>
+          <v-btn small color="primary" @click="editProcess(item)">Edit</v-btn>
         </v-card>
       </v-col>
     </v-row>
 
-    <v-layout row wrap>
+    <v-layout row wrap v-if="admin">
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field v-model="city" :rules="cityRules" label="City" required></v-text-field>
@@ -41,21 +42,33 @@
 
           <!-- <v-text-field v-model="dependency" label="Dependency" required></v-text-field> -->
 
-          <v-btn :disabled="!valid" color="success" @click="validate">Register Trip</v-btn>
-
+          <v-btn v-if="!editing" :disabled="!valid" color="success" @click="validate">Register Trip</v-btn>
+          <v-btn v-else :disabled="!valid" color="success" @click="editTrip">Edit Trip</v-btn>
+          
           <v-btn color="error" @click="reset">Reset Form</v-btn>
         </v-form>
       </v-flex>
     </v-layout>
+
+
   </v-container>
 </template>
 
 <script>
 import Trip from "../api/Trip";
 import Faker from "faker/locale/es";
+import { mapState } from "vuex";
 
-export default {
+
+export default { 
+  computed: {
+    ...mapState({
+      admin: state => state.admin
+    })
+  },
   data: () => ({
+    tripInEditingProcess: null,
+    editing: false,
     valid: true,
     city: "",
     cityRules: [v => !!v || "City is required"],
@@ -121,6 +134,31 @@ export default {
       if (day.length < 2) day = "0" + day;
 
       return [year, month, day].join("-");
+    },
+    editProcess(item) {
+      this.tripInEditingProcess = item;
+      this.editing = true;
+      this.city = item.city;
+      this.country = item.country;
+      this.departure = item.departure;
+      this.arrival = item.arrival;
+      this.description = item.description;
+      this.price = item.price;
+    },
+    editTrip() {
+      let trip = {
+        _id: this.tripInEditingProcess._id,
+        city: this.city,
+        country: this.country,
+        photo: this.tripInEditingProcess.photo,
+        departure: this.departure,
+        arrival: this.arrival,
+        description: this.description,
+        price: this.price
+      };
+      this.editing = false;
+      Meteor.call("trip.edit", trip);
+      this.reset()
     }
   },
   meteor: {

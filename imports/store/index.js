@@ -9,7 +9,7 @@ export default new Vuex.Store({
 
     state: {
         userLog: null,
-        admin: null,
+        admin: true,
         status: null,
         error: null,
     },
