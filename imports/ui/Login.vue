@@ -39,11 +39,11 @@ export default {
       this.$refs.form.reset();
     },
     login() {
-      const user = {
+      const userC = {
         email: this.email,
         password: this.password
       };
-      this.$store.dispatch("signInAction", user);
+      this.$store.dispatch("submitLoginForm", userC);
     }
   }
 };

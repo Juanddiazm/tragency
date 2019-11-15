@@ -5,7 +5,7 @@
     </v-toolbar-items>
     <v-spacer></v-spacer>
     <!-- navigation bar links -->
-    <v-toolbar-items class="hidden-xs-only" v-if="!userLogedIn()">
+    <v-toolbar-items class="hidden-xs-only" v-if="!currentUser">
       <v-btn @click="$router.push('/aboutUs')">ABOUT US</v-btn>
       <v-btn @click="$router.push('/trips')">TRIPS</v-btn>
       <v-btn @click="$router.push('/testimonials')">TESTIMONIALS</v-btn>
@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+
 export default {
   computed: {
     items() {
@@ -37,15 +40,15 @@ export default {
         }
       ];
       return menuItems;
-    }
+    },
+...mapState({
+      currentUser: state => state.user
+    })
   },
 
   methods: {
     logout() {
-      return false;
-    },
-    userLogedIn() {
-      return false;
+      this.$store.dispatch('logout')
     }
   }
 };

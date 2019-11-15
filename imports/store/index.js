@@ -1,99 +1,62 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { router } from '../router'
-
+import { Accounts } from 'meteor/accounts-base'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 
     state: {
-        userLog: null,
-        admin: true,
-        status: null,
-        error: null,
+        users: [],
+        user: null,
     },
     mutations: {
-        setUser(state, payload) {
-            state.userLog = payload
+        updateUsers(state, value) {
+            console.log('users state mutated')
+            state.users = value
         },
-        removeUser(state) {
-            state.userLog = null
+        updateUser(state, value) {
+            state.user = value
         },
-        setStatus(state, payload) {
-            state.status = payload
-        },
-        setError(state, payload) {
-            state.error = payload
-        },
-        setAdmin(state, payload) {
-            state.admin = payload
+        isUsernameValid(state, value) {
+            state.isUsernameValid = value
         }
     },
     actions: {
-        signUpAction({ commit }, payload) {
-            if (payload == null) {
-                alert('The email is already registered')
-                commit('setStatus', 'failure')
-               
-            } else {
-                commit('setUser',payload)
-                alert('Successfully registered')
-                commit('setStatus', 'success')
-                commit('setError', null)
-                router.push('/login')
-            }
-        }
-        ,
-        signInAction({ commit }, payload) {
-            for (let index = 0; index < user.length; index++) {
-                if (payload.email === user[index].email) {
-                    if (user[index].isAdmin === true) {
-                        commit('setAdmin', user[index])
-                        sessionStorage.setItem('user', user[index]);
-                        commit('setStatus', 'success')
-                        commit('setError', null)
-                        alert('Loggin!')
-                        router.push('/home')
-                    } else {
-                        commit('setUser', user[index])
-                        sessionStorage.setItem('user', user[index]);
-                        commit('setStatus', 'success')
-                        commit('setError', null)
-                        alert('Loggin!')
-                        router.push('/home')
+        submitRegisterForm({ commit, state }, formData) {
+            Accounts.createUser(formData, error => {
+                if (error) {
+                    console.log(error.reason)
+                } else {
 
-                    }
+                    console.log('user registered')
+                    router.push('login')
                 }
-            }
-            console.log(admin, userLog)
-            if (admin == null && userLog == null) {
-                alert('Login failed!')
-                commit('setStatus', 'failure')
-            }
+            })
+        },
+        submitLoginForm({ commit, state }, formData) {
+            Meteor.loginWithPassword(formData.email, formData.password, error => {
+                if (error) {
+                    console.log(error.reason)
+                } else {
+                    commit('updateUser', Meteor.user())
+                    console.log('user logged in', state.user)
+                    router.push('home')
+                }
+            })
+        },
+        logout({ commit }) {
+            Meteor.logout(() => {
+                commit('updateUser', null)
+                console.log('user logged out')
+            })
+        }
 
-        },
-        signOutAction({ commit }) {
-            alert('You have successfully left')
-            router.push('/')
-            commit('setUser', null)
-            commit('setAdmin', null)
-            sessionStorage.removeItem('user')
-            commit('setStatus', 'success')
-            commit('setError', null)
-        },
     },
     getters: {
-        status(state) {
-            return state.status
-        },
-
         user(state) {
             return state.user
-        },
-
-        error(state) {
-            return state.error
         },
     }
 })

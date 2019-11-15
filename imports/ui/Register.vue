@@ -34,14 +34,19 @@ import { calcMD5 } from "../md5";
 import User from "../api/User";
 
 export default {
-  meteor: {
-    $subscribe: {
-      user: []
-    },
-    user() {
-      return User.find({}, { sort: { date: -1 } });
-    }
-  },
+  // meteor: {
+  //   subscribe: {
+  //     users: []
+  //   },
+  //   usersHelper() {
+  //     return this.$store.commit("updateUsers", Meteor.users.find({}).fetch());
+  //   }
+  // },
+  // computed: {
+  //   users() {
+  //     return this.$store.state.users;
+  //   }
+  // },
   data: () => ({
     valid: true,
     email: "",
@@ -74,29 +79,10 @@ export default {
         name: this.name,
         lastName: this.lastName,
         email: this.email,
-        password: calcMD5(this.password),
+        password: this.password,
         isAdmin: false
-      };
-      var p1 = new Promise(function(resolve, reject) {
-        if (this.user) {
-          Meteor.call("user.add", userC);
-          console.log("LLega");
-        }
-        console.log(user);
-        for (let index = 0; index < this.user.size(); index++) {
-          if (this.user[index].email === userC.email) {
-            resolve(true);
-          }
-        }
-      });
-      p1.then(registered => {
-        if (registered) {
-          this.$store.dispatch("signUpAction", null);
-        } else {
-          Meteor.call("user.add", userC);
-          this.$store.dispatch("signUpAction", userC);
-        }
-      });
+      }
+      this.$store.dispatch('submitRegisterForm',userC)
     }
   }
 };

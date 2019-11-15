@@ -44,13 +44,11 @@
 
           <v-btn v-if="!editing" :disabled="!valid" color="success" @click="validate">Register Trip</v-btn>
           <v-btn v-else :disabled="!valid" color="success" @click="editTrip">Edit Trip</v-btn>
-          
+
           <v-btn color="error" @click="reset">Reset Form</v-btn>
         </v-form>
       </v-flex>
     </v-layout>
-
-
   </v-container>
 </template>
 
@@ -59,12 +57,12 @@ import Trip from "../api/Trip";
 import Faker from "faker/locale/es";
 import { mapState } from "vuex";
 
-
-export default { 
+export default {
   computed: {
-    ...mapState({
-      admin: state => state.admin
-    })
+    // ...mapState({
+    //   admin: state => state.admin
+    // })
+    admin: true
   },
   data: () => ({
     tripInEditingProcess: null,
@@ -158,7 +156,7 @@ export default {
       };
       this.editing = false;
       Meteor.call("trip.edit", trip);
-      this.reset()
+      this.reset();
     }
   },
   meteor: {
