@@ -31,9 +31,17 @@
 
 <script>
 import { calcMD5 } from "../md5";
-import User from "../api/User"
+import User from "../api/User";
 
 export default {
+  meteor: {
+    $subscribe: {
+      user: []
+    },
+    user() {
+      return User.find({}, { sort: { date: -1 } });
+    }
+  },
   data: () => ({
     valid: true,
     email: "",
@@ -69,17 +77,26 @@ export default {
         password: calcMD5(this.password),
         isAdmin: false
       };
-     
-      console.log(this.user)
-      this.$store.dispatch("signUpAction", userC, this.user);
-    }
-  },
-  meteor: {
-    $subscribe: {
-      user: []
-    },
-    user() {
-      return User.find({}, { sort: { date: -1 } });
+      var p1 = new Promise(function(resolve, reject) {
+        if (this.user) {
+          Meteor.call("user.add", userC);
+          console.log("LLega");
+        }
+        console.log(user);
+        for (let index = 0; index < this.user.size(); index++) {
+          if (this.user[index].email === userC.email) {
+            resolve(true);
+          }
+        }
+      });
+      p1.then(registered => {
+        if (registered) {
+          this.$store.dispatch("signUpAction", null);
+        } else {
+          Meteor.call("user.add", userC);
+          this.$store.dispatch("signUpAction", userC);
+        }
+      });
     }
   }
 };

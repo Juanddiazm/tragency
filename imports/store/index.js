@@ -31,33 +31,19 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        signUpAction({ commit }, payload, users) {
-            console.log(users, payload)
-            commit('setStatus', 'loading')
-            var p1 = new Promise(
-                function (resolve, reject) {
-                    console.log(users)
-                    users.forEach(element => {
-                        if (element.email === payload.email) {
-                            resolve(true);
-                        }
-                    });
-                }
-            )
-            p1.then(registered => {
-                if (registered) {
-                    alert('The email is already registered')
-                    commit('setStatus', 'failure')
-                } else {
-                    Meteor.call("user.add", payload);
-                    alert('Successfully registered')
-                    commit('setStatus', 'success')
-                    commit('setError', null)
-                    router.push('/login')
-                }
-            })
+        signUpAction({ commit }, payload) {
+            if (payload == null) {
+                alert('The email is already registered')
+                commit('setStatus', 'failure')
+               
+            } else {
+                commit('setUser',payload)
+                alert('Successfully registered')
+                commit('setStatus', 'success')
+                commit('setError', null)
+                router.push('/login')
+            }
         }
-
         ,
         signInAction({ commit }, payload) {
             for (let index = 0; index < user.length; index++) {
