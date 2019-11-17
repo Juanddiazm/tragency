@@ -34,19 +34,6 @@ import { calcMD5 } from "../md5";
 import User from "../api/User";
 
 export default {
-  // meteor: {
-  //   subscribe: {
-  //     users: []
-  //   },
-  //   usersHelper() {
-  //     return this.$store.commit("updateUsers", Meteor.users.find({}).fetch());
-  //   }
-  // },
-  // computed: {
-  //   users() {
-  //     return this.$store.state.users;
-  //   }
-  // },
   data: () => ({
     valid: true,
     email: "",

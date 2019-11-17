@@ -7,12 +7,12 @@
           <div class="body-1" v-text='"\""+item.description+"\""'></div>
           <!--   <div class="body-1" v-text='"\""+item.description+"\""'></div> -->
           <div class="font-italic font-weight-bold" align="right" v-text="'-'+item.name"></div>
-          <v-btn small color="error" @click="deleteTestimonial(item)">Delete</v-btn>
+          <v-btn v-if="currentUserIsAdmin" color="error" @click="deleteTestimonial(item)">Delete</v-btn>
         </v-card>
       </v-col>
     </v-row>
 
-    <v-layout row wrap>
+    <v-layout v-if="this.$store.state.user && !currentUserIsAdmin" row wrap>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field v-model="name" :rules="nameRules" label="Name" required></v-text-field>
@@ -32,6 +32,18 @@
 <script>
 import Testimonial from "../api/Testimonial";
 export default {
+  computed: {
+    // ...mapState({
+    //   admin: state => state.admin
+    // })
+    currentUserIsAdmin() {
+      if (this.$store.state.user === false) {
+        return false;
+      } else {
+        return this.$store.state.user.isAdmin;
+      }
+    }
+  },
   data: () => ({
     valid: true,
     name: "",
@@ -46,7 +58,7 @@ export default {
         this.register();
       }
     },
-     register() {
+    register() {
       //  let ran = Math.ceil(Math.random() * 1000000);
       let testimonial = {
         description: this.description,
@@ -58,8 +70,8 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
-    deleteTestimonial(item){
-      Meteor.call('testimonial.delete',item);
+    deleteTestimonial(item) {
+      Meteor.call("testimonial.delete", item);
     }
   },
   meteor: {

@@ -10,12 +10,12 @@
           <v-icon>fas fa-dollar-sign</v-icon>
           <div class="body-1" v-text="item.price"></div>
           <div class="body-1" v-text="item.description"></div>
-          <v-btn small color="primary" @click="editProcess(item)">Edit</v-btn>
+          <v-btn v-if="currentUserIsAdmin" color="primary" @click="editProcess(item)">Edit</v-btn>
         </v-card>
       </v-col>
     </v-row>
 
-    <v-layout row wrap v-if="admin">
+    <v-layout row wrap v-if="currentUserIsAdmin">
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field v-model="city" :rules="cityRules" label="City" required></v-text-field>
@@ -62,7 +62,13 @@ export default {
     // ...mapState({
     //   admin: state => state.admin
     // })
-    admin: true
+    currentUserIsAdmin() {
+      if (this.$store.state.user === false) {
+        return false;
+      } else {
+        return this.$store.state.user.isAdmin;
+      }
+    }
   },
   data: () => ({
     tripInEditingProcess: null,

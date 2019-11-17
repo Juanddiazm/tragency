@@ -17,7 +17,26 @@
 </template>
 
 <script>
+import User from "../api/User";
+
 export default {
+  meteor: {
+    $subscribe: {
+      user: []
+    },
+    user() {
+       this.$store.commit(
+        "updateUsers",
+        User.find({}, { sort: { date: -1 } }).fetch()
+      );
+      return User.find({}, { sort: { date: -1 } });
+    }
+  },
+  // computed: {
+  //   users() {
+  //     return this.$store.state.users;
+  //   }
+  // },
   data: () => ({
     valid: true,
     email: "",

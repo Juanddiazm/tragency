@@ -25,7 +25,6 @@
 <script>
 import { mapState } from "vuex";
 
-
 export default {
   computed: {
     items() {
@@ -41,14 +40,16 @@ export default {
       ];
       return menuItems;
     },
-...mapState({
-      currentUser: state => state.user
-    })
+    // user() {
+    //   return window.localStorage.getItem("user");
+    // }
+    ...mapState({
+          currentUser: state => state.user
+        })
   },
-
   methods: {
     logout() {
-      this.$store.dispatch('logout')
+      this.$store.dispatch("logout");
     }
   }
 };

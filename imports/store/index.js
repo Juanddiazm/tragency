@@ -9,7 +9,7 @@ export default new Vuex.Store({
 
     state: {
         users: [],
-        user: null,
+        user: false,
     },
     mutations: {
         updateUsers(state, value) {
@@ -29,7 +29,7 @@ export default new Vuex.Store({
                 if (error) {
                     console.log(error.reason)
                 } else {
-
+                    Meteor.call("user.add", formData);
                     console.log('user registered')
                     router.push('login')
                 }
@@ -40,15 +40,18 @@ export default new Vuex.Store({
                 if (error) {
                     console.log(error.reason)
                 } else {
-                    commit('updateUser', Meteor.user())
-                    console.log('user logged in', state.user)
+                    currentUser = state.users.filter(x => x.email === Meteor.user().emails[0].address )
+                    commit('updateUser', currentUser[0])
+                    // window.localStorage.setItem('user', currentUser[0]);
+                    console.log('User in storage: ', state.user)
                     router.push('home')
                 }
             })
         },
         logout({ commit }) {
             Meteor.logout(() => {
-                commit('updateUser', null)
+                // window.localStorage.removeItem('user');
+                commit('updateUser', false)
                 console.log('user logged out')
             })
         }
