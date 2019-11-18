@@ -6,10 +6,10 @@ import { Accounts } from 'meteor/accounts-base'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-
     state: {
         users: [],
         user: false,
+        itemTrip: null
     },
     mutations: {
         updateUsers(state, value) {
@@ -21,6 +21,9 @@ export default new Vuex.Store({
         },
         isUsernameValid(state, value) {
             state.isUsernameValid = value
+        },
+        updateItemTrip(state, value){
+            state.itemTrip = value
         }
     },
     actions: {

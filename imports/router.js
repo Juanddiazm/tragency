@@ -5,6 +5,7 @@ import Trips from './ui/Trips'
 import Testimonials from './ui/Testimonials'
 import Register from './ui/Register'
 import Login from './ui/Login'
+import BuyTrip from './ui/BuyTrip'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,7 @@ export const router = new VueRouter({
 
         { path: '/login', name: 'Login', component: Login },
 
+        { path: '/buyTrip', name: 'BuyTrip', component: BuyTrip },
         {
             path: '*',
             redirect: '/home'

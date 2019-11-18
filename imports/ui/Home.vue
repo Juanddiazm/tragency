@@ -33,28 +33,39 @@
     </v-row>
     <p class="display-1 text--primary" align="center">Next Trips</p>
     <v-row max-width="window.screen.width">
-      <v-btn @click="addTrip()">Add trip</v-btn>
+     <!-- <v-btn @click="addTrip()">Add trip</v-btn> -->
       <v-col v-for="item in trip" :key="item.city" align="center" justify="center">
         <v-card max-width="310" align="left">
-          <v-img :src="item.photo" max-width="300"></v-img>
+          <v-img :src="item.photo"  class="align-end"></v-img>
+          <v-card-title>
           <div class="title" v-text="item.city+', '+item.country"></div>
-          <v-icon>fas fa-calendar-alt</v-icon>
+          </v-card-title>
+          <v-card-title>
+          <v-icon class="pr-1" >fas fa-calendar-alt</v-icon>
           <div class="body-1" v-text="formatDate(item.departure)+' - '+formatDate(item.arrival)"></div>
-          <v-icon>fas fa-dollar-sign</v-icon>
+          </v-card-title>
+          <v-card-title>
+          <v-icon class="pr-1">fas fa-dollar-sign</v-icon>
           <div class="body-1" v-text="item.price"></div>
+          </v-card-title>
+          <v-card-text>
           <div class="body-1" v-text="item.description"></div>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
 
     <p class="display-1 text--primary" align="center">Testimonials</p>
-    <v-btn @click="addTestimonial()">Add testimonial</v-btn>
+   <!-- <v-btn @click="addTestimonial()">Add testimonial</v-btn> -->
     <v-row>
       <v-col v-for="item in testimonial" :key="item.name" align="center" justify="center">
         <v-card max-width="310" align="left">
-          <v-icon>fas fa-quote-left</v-icon>
+          <v-icon class="pr-1">fas fa-quote-left</v-icon>
+          <v-card-title>
           <div class="body-1" v-text='"\""+item.description+"\""'></div>
-          <div class="font-italic font-weight-bold" align="right" v-text="'-'+item.name"></div>
+          </v-card-title>
+          
+          <div class="font-italic font-weight-bold pr-2" align="right" v-text="'-'+item.name"></div>
         </v-card>
       </v-col>
     </v-row>

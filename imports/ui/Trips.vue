@@ -1,16 +1,26 @@
 <template>
   <v-container class="grey lighten-5">
     <v-row max-width="window.screen.width">
-      <v-col v-for="item in trip" :key="item.city" align="center" justify="center">
-        <v-card min-width="310" max-width="310" align="left">
-          <v-img :src="item.photo" max-width="300"></v-img>
+      <v-col v-for="item in trip" :key="item.city" align="left" justify="center">
+        <v-card min-width="310" max-width="360" >
+          <v-img       class="align-end"
+:src="item.photo" ></v-img>
+          <v-card-title>
           <div class="title" v-text="item.city+', '+item.country"></div>
+          </v-card-title>
+          <v-card-title>
           <v-icon>fas fa-calendar-alt</v-icon>
           <div class="body-1" v-text="formatDate(item.departure)+' - '+formatDate(item.arrival)"></div>
+          </v-card-title>
+          <v-card-title>
           <v-icon>fas fa-dollar-sign</v-icon>
           <div class="body-1" v-text="item.price"></div>
+          </v-card-title>
+          <v-card-text>
           <div class="body-1" v-text="item.description"></div>
+          </v-card-text>
           <v-btn v-if="currentUserIsAdmin" color="primary" @click="editProcess(item)">Edit</v-btn>
+          <v-btn v-if="(user) && !currentUserIsAdmin" color="primary" @click="buy(item)">Buy</v-btn>
         </v-card>
       </v-col>
     </v-row>
@@ -52,16 +62,22 @@
   </v-container>
 </template>
 
+
+
 <script>
+import { router } from '../router'
 import Trip from "../api/Trip";
 import Faker from "faker/locale/es";
-import { mapState } from "vuex";
 
 export default {
   computed: {
-    // ...mapState({
-    //   admin: state => state.admin
-    // })
+    user() {
+      if (this.$store.state.user != false) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     currentUserIsAdmin() {
       if (this.$store.state.user === false) {
         return false;
@@ -163,6 +179,10 @@ export default {
       this.editing = false;
       Meteor.call("trip.edit", trip);
       this.reset();
+    },
+    buy(item) {
+      this.$store.commit("updateItemTrip", item);
+      router.push("buyTrip");
     }
   },
   meteor: {

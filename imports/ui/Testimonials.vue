@@ -1,12 +1,14 @@
 <template>
   <v-container class="grey lighten-5">
     <v-row>
-      <v-col v-for="item in testimonial" :key="item.name" align="center" justify="center">
-        <v-card min-width="310" align="left">
+      <v-col v-for="item in testimonial" :key="item.name" align="left" justify="center">
+        <v-card min-width="310"  max-width="360" align="left">
           <v-icon>fas fa-quote-left</v-icon>
+          <v-card-title>
           <div class="body-1" v-text='"\""+item.description+"\""'></div>
+          </v-card-title>
           <!--   <div class="body-1" v-text='"\""+item.description+"\""'></div> -->
-          <div class="font-italic font-weight-bold" align="right" v-text="'-'+item.name"></div>
+          <div class="font-italic font-weight-bold pr-2" align="right" v-text="'-'+item.name"></div>
           <v-btn v-if="currentUserIsAdmin" color="error" @click="deleteTestimonial(item)">Delete</v-btn>
         </v-card>
       </v-col>
