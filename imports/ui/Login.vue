@@ -12,7 +12,6 @@
     </v-layout>
   </v-container>
 </template>
-
 <script>
 import User from "../api/User";
 
@@ -22,7 +21,7 @@ export default {
       user: []
     },
     user() {
-       this.$store.commit(
+      this.$store.commit(
         "updateUsers",
         User.find({}, { sort: { date: -1 } }).fetch()
       );
