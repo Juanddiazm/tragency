@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import { calcMD5 } from "../md5";
 import User from "../api/User";
 
 export default {

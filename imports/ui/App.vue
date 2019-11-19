@@ -8,7 +8,7 @@
 <script>
 import NavBar from "./NavBar";
 import store from '../store'
-
+//Desde aca se inicia todo lo de Vue
 export default {
   name: "App",
   components: {

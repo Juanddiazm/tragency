@@ -13,11 +13,14 @@
   </v-container>
 </template>
 <script>
+//Pagina de login 
 import User from "../api/User";
 
 export default {
+  //Suscribe a los datos publicados por el servidor 
   meteor: {
     $subscribe: {
+      //Estos datos no los uso. Sin embargo tuve que hacer esto para cargar en el store de vuex todos los usuarios necesitaba usar la sintaxis de mongo
       user: []
     },
     user() {
@@ -28,11 +31,7 @@ export default {
       return User.find({}, { sort: { date: -1 } });
     }
   },
-  // computed: {
-  //   users() {
-  //     return this.$store.state.users;
-  //   }
-  // },
+
   data: () => ({
     valid: true,
     email: "",
@@ -50,6 +49,7 @@ export default {
         this.login();
       }
     },
+    //Borra los datos del los text-field
     reset() {
       this.$refs.form.reset();
     },

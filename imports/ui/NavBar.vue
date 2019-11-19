@@ -21,6 +21,7 @@
 </template>
 
 <script>
+//Esta es la barra de arriba que permite navegar por el sitio
 import { mapState } from "vuex";
 
 export default {
@@ -38,12 +39,9 @@ export default {
       ];
       return menuItems;
     },
-    // user() {
-    //   return window.localStorage.getItem("user");
-    // }
     ...mapState({
-          currentUser: state => state.user
-        })
+      currentUser: state => state.user
+    })
   },
   methods: {
     logout() {

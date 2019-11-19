@@ -28,6 +28,8 @@
 </template>
 
 <script>
+//Esta es la pagina que permite comprar un viaje
+//Necesario para manejar un pdf
 import jsPDF from "jspdf";
 import { router } from "../router";
 export default {
@@ -37,6 +39,7 @@ export default {
     creditCardRules: [v => !!v || "Credit Card is required"]
   }),
   computed: {
+    //Retorna el viaje que se va a comprar, false si no hay ninguno
     itemTrip() {
       if (this.$store.state.itemTrip === null) {
         return false;
@@ -44,6 +47,7 @@ export default {
         return this.$store.state.itemTrip;
       }
     },
+    //Retorna si el usurio actual es un administrador
     currentUserIsAdmin() {
       if (this.$store.state.user === false) {
         return false;
@@ -51,11 +55,13 @@ export default {
         return this.$store.state.user.isAdmin;
       }
     },
+    //Retorna el usuario actual 
     currentUser() {
       return this.$store.state.user;
     }
   },
   methods: {
+    //Metodo permite darle formato a la fecha mm/dd/yyy
     formatDate(date) {
       var d = new Date(date),
         month = "" + (d.getMonth() + 1),
@@ -67,6 +73,7 @@ export default {
 
       return [year, month, day].join("-");
     },
+    //Arma el PDF que se le descarga al usuario.
     buy() {
       if (this.$refs.form.validate()) {
         this.snackbar = true;

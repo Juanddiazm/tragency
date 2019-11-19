@@ -2,15 +2,18 @@
 import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 
+/**
+ * Archivo donde se publica la colecion de viajes y se definen metodos sobre dicha colección
+ */
 export default Trip = new Mongo.Collection('trip')
 
-
+//El servidor publica los viajes
 if (Meteor.isServer) {
     Meteor.publish('trip', () => {
         return Trip.find({});
     })
 }
-
+//Diferentes metodos sobre la coleccion
 Meteor.methods({
     'trip.add'(trip) {
         Trip.insert({

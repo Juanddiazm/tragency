@@ -32,12 +32,12 @@
 
 
 <script>
+
+//Pagina donde se publican los testimonios 
 import Testimonial from "../api/Testimonial";
 export default {
   computed: {
-    // ...mapState({
-    //   admin: state => state.admin
-    // })
+
     currentUserIsAdmin() {
       if (this.$store.state.user === false) {
         return false;
@@ -49,7 +49,6 @@ export default {
   data: () => ({
     valid: true,
     name: "",
-   // nameRules: [v => !!v || "Name is required"],
     description: "",
     descriptionRules: [v => !!v || "Comment is required"]
   }),
@@ -60,8 +59,8 @@ export default {
         this.register();
       }
     },
+    //Registra un testimonio
     register() {
-      //  let ran = Math.ceil(Math.random() * 1000000);
       let testimonial = {
         description: this.description,
         name: this.$store.state.user.name + " "+ this.$store.state.user.lastName
@@ -78,6 +77,7 @@ export default {
     }
   },
   meteor: {
+    //Suscripcion a los datos 
     $subscribe: {
       testimonial: []
     },

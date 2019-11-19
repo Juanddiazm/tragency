@@ -70,10 +70,12 @@
 <script>
 import { router } from "../router";
 import Trip from "../api/Trip";
+//Faker para probar con datos aunque falsos 
 import Faker from "faker/locale/es";
-
+//Pagina de los viajes 
 export default {
   computed: {
+    //Retorna si hay un usuario logueado 
     user() {
       if (this.$store.state.user != false) {
         return true;
@@ -81,6 +83,7 @@ export default {
         return false;
       }
     },
+    //Retorna si el usario actual es administrador si no retorna falso 
     currentUserIsAdmin() {
       if (this.$store.state.user === false) {
         return false;
@@ -136,7 +139,6 @@ export default {
       }
     },
     register() {
-      //  let ran = Math.ceil(Math.random() * 1000000);
       const trip = {
         city: this.city,
         country: this.country,
@@ -147,7 +149,6 @@ export default {
         description: this.description,
         price: this.price
       };
-      console.log(trip);
       Meteor.call("trip.add", trip);
       this.reset();
     },

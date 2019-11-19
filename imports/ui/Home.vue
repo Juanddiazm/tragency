@@ -71,8 +71,9 @@
     </v-row>
   </v-col>
 </template>
-
 <script>
+//Pagina de inicio 
+//este Faker se uso para las pruebas genera datos falsos consultar la documentacion es sencillita
 import Faker from "faker/locale/es";
 import Trip from "../api/Trip";
 import Testimonial from "../api/Testimonial";
@@ -113,6 +114,7 @@ export default {
       console.log(testimonial);
     }
   },
+  //Esto permite suscribirse a los datos publicados por el server
   meteor: {
     $subscribe: {
       trip: [],

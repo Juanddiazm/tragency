@@ -8,7 +8,7 @@ import Login from './ui/Login'
 import BuyTrip from './ui/BuyTrip'
 
 Vue.use(VueRouter)
-
+//El router de la aplicacion 
 export const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
