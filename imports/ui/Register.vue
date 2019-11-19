@@ -67,7 +67,7 @@ export default {
         lastName: this.lastName,
         email: this.email,
         password: this.password,
-        isAdmin: true
+        isAdmin: false
       }
       this.$store.dispatch('submitRegisterForm',userC)
     }
