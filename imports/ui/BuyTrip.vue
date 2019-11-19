@@ -19,7 +19,9 @@
       >
         <v-text-field v-model="creditCard" :rules="creditCardRules" label="Credit Card" required></v-text-field>
         <v-btn :disabled="!valid" color="primary" @click="buy()">Buy</v-btn>
-       
+      </v-form>
+      <v-form v-else>
+        <v-alert type="warning">You need be USER</v-alert>
       </v-form>
     </v-card>
   </v-col>
@@ -86,7 +88,11 @@ export default {
           10,
           60
         );
-        doc.text("Departure: " + this.formatDate(this.itemTrip.departure), 10, 70);
+        doc.text(
+          "Departure: " + this.formatDate(this.itemTrip.departure),
+          10,
+          70
+        );
         doc.text("Arrival: " + this.formatDate(this.itemTrip.arrival), 10, 80);
 
         doc.text("Price: " + this.itemTrip.price, 10, 90);
@@ -98,7 +104,7 @@ export default {
         doc.text("THANKS FOR TRUSTING US.", 10, 110);
 
         doc.save("RECEIPT_TRIP.pdf");
-        router.push('trips')        
+        router.push("trips");
       }
     }
   }

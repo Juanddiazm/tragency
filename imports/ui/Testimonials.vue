@@ -68,6 +68,7 @@ export default {
       };
       Meteor.call("testimonial.add", testimonial);
       console.log(testimonial);
+      this.reset();
     },
     reset() {
       this.$refs.form.reset();

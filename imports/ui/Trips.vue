@@ -2,24 +2,25 @@
   <v-container class="grey lighten-5">
     <v-row max-width="window.screen.width">
       <v-col v-for="item in trip" :key="item.city" align="left" justify="center">
-        <v-card min-width="310" max-width="360" >
-          <v-img       class="align-end"
-:src="item.photo" ></v-img>
+        <v-card min-width="310" max-width="360">
+          <v-img class="align-end" :src="item.photo"></v-img>
           <v-card-title>
-          <div class="title" v-text="item.city+', '+item.country"></div>
+            <div class="title" v-text="item.city+', '+item.country"></div>
           </v-card-title>
           <v-card-title>
-          <v-icon>fas fa-calendar-alt</v-icon>
-          <div class="body-1" v-text="formatDate(item.departure)+' - '+formatDate(item.arrival)"></div>
+            <v-icon>fas fa-calendar-alt</v-icon>
+            <div class="body-1" v-text="formatDate(item.departure)+' - '+formatDate(item.arrival)"></div>
           </v-card-title>
           <v-card-title>
-          <v-icon>fas fa-dollar-sign</v-icon>
-          <div class="body-1" v-text="item.price"></div>
+            <v-icon>fas fa-dollar-sign</v-icon>
+            <div class="body-1" v-text="item.price"></div>
           </v-card-title>
           <v-card-text>
-          <div class="body-1" v-text="item.description"></div>
+            <div class="body-1" v-text="item.description"></div>
           </v-card-text>
           <v-btn v-if="currentUserIsAdmin" color="primary" @click="editProcess(item)">Edit</v-btn>
+          <v-btn v-if="currentUserIsAdmin" color="error" @click="deleteTrip(item)">Delete</v-btn>
+
           <v-btn v-if="(user) && !currentUserIsAdmin" color="primary" @click="buy(item)">Buy</v-btn>
         </v-card>
       </v-col>
@@ -32,7 +33,7 @@
 
           <v-text-field v-model="country" :rules="countryRules" label="Country" required></v-text-field>
 
-          <v-text-field v-model="arrival" :rules="arrivalRules" label="Arrival mm/dd/yyyy" required></v-text-field>
+          <v-text-field v-model="photo" :rules="photoRules" label="URL Photo" required></v-text-field>
 
           <v-text-field
             v-model="departure"
@@ -40,6 +41,8 @@
             label="Departure mm/dd/yyyy"
             required
           ></v-text-field>
+
+          <v-text-field v-model="arrival" :rules="arrivalRules" label="Arrival mm/dd/yyyy" required></v-text-field>
 
           <v-text-field
             v-model="description"
@@ -65,7 +68,7 @@
 
 
 <script>
-import { router } from '../router'
+import { router } from "../router";
 import Trip from "../api/Trip";
 import Faker from "faker/locale/es";
 
@@ -96,6 +99,8 @@ export default {
     countryRules: [v => !!v || "Country is required"],
     departure: "",
     //
+    photo: "",
+    photoRules: [v => !!v || "Photo URL is required"],
     departureRules: [
       v =>
         /((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})/.test(
@@ -121,6 +126,9 @@ export default {
     ]
   }),
   methods: {
+    deleteTrip(item) {
+       Meteor.call("trip.delete", item);
+    },
     validate() {
       if (this.$refs.form.validate()) {
         this.snackbar = true;
@@ -132,7 +140,8 @@ export default {
       const trip = {
         city: this.city,
         country: this.country,
-        photo: Faker.image.city(),
+        // photo: Faker.image.city(),
+        photo: this.photo,
         departure: this.departure,
         arrival: this.arrival,
         description: this.description,
@@ -140,6 +149,7 @@ export default {
       };
       console.log(trip);
       Meteor.call("trip.add", trip);
+      this.reset();
     },
     reset() {
       this.$refs.form.reset();
@@ -160,6 +170,7 @@ export default {
       this.editing = true;
       this.city = item.city;
       this.country = item.country;
+      this.photo = item.photo;
       this.departure = item.departure;
       this.arrival = item.arrival;
       this.description = item.description;
@@ -170,7 +181,7 @@ export default {
         _id: this.tripInEditingProcess._id,
         city: this.city,
         country: this.country,
-        photo: this.tripInEditingProcess.photo,
+        photo: this.photo,
         departure: this.departure,
         arrival: this.arrival,
         description: this.description,

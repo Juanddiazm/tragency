@@ -35,5 +35,10 @@ Meteor.methods({
             }
         }
         )
-    }
+    },
+    'trip.delete'(trip) {
+        Trip.remove({ 
+            _id: trip._id 
+        })
+    },
 })
