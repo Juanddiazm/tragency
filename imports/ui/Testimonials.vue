@@ -17,7 +17,7 @@
     <v-layout v-if="this.$store.state.user && !currentUserIsAdmin" row wrap>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field v-model="name" :rules="nameRules" label="Name" required></v-text-field>
+          <!-- <v-text-field v-model="name" :rules="nameRules" label="Name" required></v-text-field> -->
 
           <v-text-field v-model="description" :rules="descriptionRules" label="Comment" required></v-text-field>
 
@@ -49,7 +49,7 @@ export default {
   data: () => ({
     valid: true,
     name: "",
-    nameRules: [v => !!v || "Name is required"],
+   // nameRules: [v => !!v || "Name is required"],
     description: "",
     descriptionRules: [v => !!v || "Comment is required"]
   }),
@@ -64,7 +64,7 @@ export default {
       //  let ran = Math.ceil(Math.random() * 1000000);
       let testimonial = {
         description: this.description,
-        name: this.name
+        name: this.$store.state.user.name + " "+ this.$store.state.user.lastName
       };
       Meteor.call("testimonial.add", testimonial);
       console.log(testimonial);
